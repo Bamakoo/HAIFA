@@ -18,8 +18,15 @@ struct CuisineListView: View {
             NavigationLink(value: cuisine) {
                 CuisineRowView(cuisine: cuisine)
             }
+            .listRowBackground(
+                Color.clear
+                    .ignoresSafeArea()
+            )
+            .listRowSeparator(.hidden, edges: .bottom)
+            .listRowInsets(EdgeInsets.init(top: 0, leading: 10, bottom: 0, trailing: 10))
         }
-        .listStyle(.automatic)
+        .scrollContentBackground(.hidden)
+        .environment(\.defaultMinListRowHeight, 90)
         .navigationTitle("World Cuisines")
         .task {
             do {

@@ -5,12 +5,21 @@ struct RecipeController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         let recipes = routes.grouped("recipes")
         recipes.get(use: index)
+        recipes.get("random", use: random)
         recipes.post(use: create)
         recipes.group(":recipeID") { recipe in
             recipe.get(use: indexRecipe)
             recipe.patch(use: update)
             recipe.delete(use: delete)
         }
+    }
+    // TODO: use urlqueries on standard, classic HTTP GET
+    func random(req: Request) async throws -> Recipe {
+        let recipes = try await Recipe.query(on: req.db).all()
+        guard let recipe = recipes.randomElement() else {
+            throw Abort(.notFound)
+        }
+        return recipe
     }
     
     func indexRecipe(req: Request) async throws -> Response {
@@ -56,7 +65,7 @@ struct RecipeController: RouteCollection {
         if let steps = patch.steps {
             recipe.steps = steps
         }
-
+        
         if let cuisine = patch.cuisine {
             recipe.$cuisine.id = cuisine
         }
@@ -64,18 +73,18 @@ struct RecipeController: RouteCollection {
         try await recipe.save(on: req.db)
         return .init(status: .noContent)
     }
-
+    
     func index(req: Request) async throws -> [Recipe] {
         try await Recipe.query(on: req.db).all()
     }
-
+    
     func create(req: Request) async throws -> Response {
         let recipe = try req.content.decode(Recipe.self)
         try await recipe.save(on: req.db)
         req.logger.info("A new recipe for \(recipe.title) has been successfully saved to DB")
         return try await recipe.encodeResponse(status: .created, for: req)
     }
-
+    
     func delete(req: Request) async throws -> Response {
         guard let recipe = try await Recipe.find(req.parameters.get("recipeID"), on: req.db) else {
             throw Abort(.notFound)

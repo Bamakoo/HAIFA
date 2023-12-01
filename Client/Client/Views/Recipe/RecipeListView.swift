@@ -19,7 +19,15 @@ struct RecipeListView: View {
             NavigationLink(destination: RecipeDetailView(recipe: Binding.constant(recipe))) {
                 RecipeRowView(recipe: recipe)
             }
+            .listRowBackground(
+                Color.clear
+                    .ignoresSafeArea()
+            )
+            .listRowSeparator(.hidden, edges: .bottom)
+            .listRowInsets(EdgeInsets.init(top: 0, leading: 10, bottom: 0, trailing: 10))
         }
+        .scrollContentBackground(.hidden)
+        .environment(\.defaultMinListRowHeight, 90)
         .listStyle(.automatic)
         .navigationTitle("Recipes")
         .onChange(of: selectedCuisine) { cuisine in

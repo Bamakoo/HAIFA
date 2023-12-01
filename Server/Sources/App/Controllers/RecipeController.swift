@@ -16,7 +16,9 @@ struct RecipeController: RouteCollection {
     // TODO: use urlqueries on standard, classic HTTP GET
     func random(req: Request) async throws -> Recipe {
         let recipes = try await Recipe.query(on: req.db).all()
+        req.logger.info("Successfully fetch all the recipes")
         guard let recipe = recipes.randomElement() else {
+            req.logger.info("Unable to get a random recipe")
             throw Abort(.notFound)
         }
         return recipe
@@ -24,8 +26,10 @@ struct RecipeController: RouteCollection {
     
     func indexRecipe(req: Request) async throws -> Response {
         guard let recipe = try await Recipe.find(req.parameters.get("recipeID"), on: req.db) else {
+            req.logger.info("Unable to fetch recipe from DB")
             throw Abort(.notFound)
         }
+        req.logger.info("successfully fetched Recipe from DB")
         return try await recipe.encodeResponse(status: .ok, for: req)
     }
     
@@ -34,40 +38,50 @@ struct RecipeController: RouteCollection {
     /// - Returns: A Response object with a HTTP code
     func update(req: Request) async throws -> Response {
         guard let recipe = try await Recipe.find(req.parameters.get("recipeID"), on: req.db) else {
+            req.logger.info("Failed to fetche Recipe from DB")
             throw Abort(.notFound)
         }
-        
+        req.logger.info("Fetched \(recipe) from DB")
+
         // TODO: make sure that PATCH funcs work ie unit test it
         // TODO: Users can add a single step or ingredient instead of the full array or dictionary
         
         let patch = try req.content.decode(PatchRecipe.self)
-        
+        req.logger.info("Decoded \(patch) from request")
+
         if let title = patch.title {
             recipe.title = title
+            req.logger.info("New title \(title) for recipe: \(recipe)")
         }
         
         if let ingredient = patch.ingredient {
             recipe.ingredients.append(ingredient)
+            req.logger.info("New ingredient \(ingredient) for recipe: \(recipe)")
         }
         
         if let recipeType = patch.recipeType {
             recipe.recipeType = recipeType
+            req.logger.info("New recipeType \(recipeType) for recipe: \(recipe)")
         }
         
         if let time = patch.time {
             recipe.time = time
+            req.logger.info("New time \(time) for recipe: \(recipe)")
         }
         
         if let ingredients = patch.ingredients {
             recipe.ingredients = ingredients
+            req.logger.info("New set of ingredients \(ingredients) for recipe: \(recipe)")
         }
         
         if let steps = patch.steps {
             recipe.steps = steps
+            req.logger.info("New set of steps \(steps) for recipe: \(recipe)")
         }
         
         if let cuisine = patch.cuisine {
             recipe.$cuisine.id = cuisine
+            req.logger.info("New UUID \(cuisine) for recipe: \(recipe)")
         }
         
         try await recipe.save(on: req.db)

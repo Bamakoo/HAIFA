@@ -12,6 +12,7 @@ struct CuisineRowView: View {
     var body: some View {
         if let cuisineCountry = cuisine.country {
             Text(cuisineCountry)
+                .font(.system(size: 30, weight: .regular, design: .rounded))
         }
     }
 }

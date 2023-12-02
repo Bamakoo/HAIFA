@@ -11,10 +11,13 @@ struct CreateRecipe: AsyncMigration {
             .field("description", .string, .required)
             .field("recipe_type", recipeType, .required)
             .field("time", .double, .required)
-            // TODO: Once fix is pushed to production used custom Array
+            // TODO: Once fix is pushed to production used custom Array ie => .array(of: .custom(Ingredient.self))
             .field("ingredients", .sql(raw: "JSONB[]"), .required)
             .field("steps", .dictionary, .required)
             .field("cuisine_id", .uuid, .required, .references("cuisines", "id"))
+            .field("created_at", .date)
+            .field("updated_at", .date)
+            .field("deleted_at", .date)
             .create()
     }
 

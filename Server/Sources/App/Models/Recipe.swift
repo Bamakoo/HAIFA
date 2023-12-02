@@ -24,7 +24,7 @@ final class Recipe: Model, Content {
     /// The estimated number of  minutes it takes to complete the recipe
     @Field(key: "time")
     var time: Double
-
+    
     @Field(key: "ingredients")
     var ingredients: [Ingredient]
     
@@ -33,6 +33,15 @@ final class Recipe: Model, Content {
     
     @Parent(key: "cuisine_id")
     var cuisine: Cuisine
+    
+    @Timestamp(key: "created_at", on: .create)
+    var createdAt: Date?
+    
+    @Timestamp(key: "updated_at", on: .update)
+    var updatedAt: Date?
+    
+    @Timestamp(key: "deleted_at", on: .delete)
+    var deletedAt: Date?
     
     // TODO: add createdAt, updatedAt and deletedAt
     
@@ -45,7 +54,10 @@ final class Recipe: Model, Content {
          time: Double,
          ingredients: [Ingredient],
          steps: [String:String],
-         cuisineID: Cuisine.IDValue) {
+         cuisineID: Cuisine.IDValue,
+         createdAt: Date? = nil,
+         updatedAt: Date? = nil,
+         deletedAt: Date? = nil) {
         self.id = id
         self.title = title
         self.description = description
@@ -54,5 +66,8 @@ final class Recipe: Model, Content {
         self.ingredients = ingredients
         self.steps = steps
         self.$cuisine.id = cuisineID
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+        self.deletedAt = deletedAt
     }
 }

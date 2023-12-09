@@ -15,17 +15,20 @@ struct CuisineController: RouteCollection {
     
     func cuisinesRecipes(req: Request) async throws -> [Recipe] {
         guard let cuisine = try await Cuisine.find(req.parameters.get("cuisineID"), on: req.db) else {
+            req.logger.info("Unable to find cuisine in the DB")
             throw Abort(.notFound)
         }
         return try await cuisine.$recipes.get(on: req.db)
     }
 
     func index(req: Request) async throws -> [Cuisine] {
-        try await Cuisine.query(on: req.db).all()
+        req.logger.info("Fetching all the World Cuisines")
+        return try await Cuisine.query(on: req.db).all()
     }
     
     func create(req: Request) async throws -> Response {
         let cuisine = try req.content.decode(Cuisine.self)
+        req.logger.info("Decoded \(cuisine) sent from client")
         guard try await canAddNewCuisine(cuisine.country, req: req) else {
             req.logger.info("Couldn't add a new Cuisine to DB")
             throw Abort(.notFound)
@@ -60,6 +63,7 @@ struct CuisineController: RouteCollection {
             throw Abort(.notFound)
         }
         try await cuisine.delete(on: req.db)
+        req.logger.info("Successfully Deleted cuisine \(cuisine)")
         return .init(status: .ok)
     }
 }

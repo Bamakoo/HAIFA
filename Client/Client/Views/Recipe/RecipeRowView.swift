@@ -13,5 +13,6 @@ struct RecipeRowView: View {
     var body: some View {
         // TODO: Design the recipe row
         Text(recipe.title)
+            .font(.system(size: 20, weight: .regular, design: .rounded))
     }
 }

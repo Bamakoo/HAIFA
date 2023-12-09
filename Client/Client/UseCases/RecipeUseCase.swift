@@ -12,7 +12,7 @@ import Combine
 
 extension UseCase {
     struct CuisineRecipe {
-        static func fetchRecipes(for url: URL) throws -> some Publisher<Recipes, Error> {
+        static func fetchRecipes(for url: URL) async throws -> some Publisher<Recipes, Error> {
             let decoder = JSONDecoder()
             return URLSession
                 .shared

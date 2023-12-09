@@ -36,15 +36,19 @@ final class Recipe: Model, Content {
     
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?
-    
+
     @Timestamp(key: "updated_at", on: .update)
     var updatedAt: Date?
     
     @Timestamp(key: "deleted_at", on: .delete)
     var deletedAt: Date?
+        
+    @Timestamp(key: "updated_at", on: .update)
+    var updatedAt: Date?
     
-    // TODO: add createdAt, updatedAt and deletedAt
-    
+    @Timestamp(key: "deleted_at", on: .delete)
+    var deletedAt: Date?
+        
     init() {}
     
     init(id: UUID?,

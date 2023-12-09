@@ -10,7 +10,7 @@ import Combine
 
 extension UseCase {
     struct Cuisine {
-        static func fetchCuisines() throws -> some Publisher<Cuisines, Error> {
+        static func fetchCuisines() async throws -> some Publisher<Cuisines, Error> {
             
             guard let url = URL(string: "http://127.0.0.1:8080/cuisines") else {
                 throw NetworkingError.badURL

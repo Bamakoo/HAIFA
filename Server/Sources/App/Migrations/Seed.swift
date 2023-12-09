@@ -13,8 +13,6 @@ struct Seed: AsyncMigration {
 
     func prepare(on database: Database) async throws {
         
-        // TODO: Git versioning
-        
         // MARK: Mexico
         let mexicanCuisine = Cuisine(country: "Mexico")
         try await mexicanCuisine.create(on: database)

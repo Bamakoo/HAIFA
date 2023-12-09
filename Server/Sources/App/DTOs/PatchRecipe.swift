@@ -7,7 +7,6 @@
 
 import Foundation
 
-// TODO: add custom types so a single ingredient/step can be added
 struct PatchRecipe: Codable {
     let title: String?
     let recipeType: RecipeType?

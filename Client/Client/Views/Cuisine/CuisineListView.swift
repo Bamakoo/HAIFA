@@ -9,10 +9,10 @@ import SwiftUI
 
 /// A list of world cuisines to choose from, clicking on a particular country will lead you to the countries list of available recipes
 struct CuisineListView: View {
-    
+
     @StateObject private var viewModel = CuisineViewModel()
     @Binding var selectedCuisine: Cuisine?
-    
+
     var body: some View {
         List(viewModel.cuisines, selection: $selectedCuisine) { cuisine in
             NavigationLink(value: cuisine) {
@@ -30,9 +30,9 @@ struct CuisineListView: View {
         .navigationTitle("World Cuisines")
         .task {
             do {
-                try viewModel.fetchCuisines()
+                try await viewModel.fetchCuisines()
             } catch {
-                print(error)
+                print(error.localizedDescription)
             }
         }
         .foregroundColor(Color.black)

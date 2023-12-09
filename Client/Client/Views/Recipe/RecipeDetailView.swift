@@ -28,6 +28,7 @@ struct RecipeDetailView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 200, height: 200)
+                
                 Spacer(minLength: 35)
                 
                 // MARK: HStack

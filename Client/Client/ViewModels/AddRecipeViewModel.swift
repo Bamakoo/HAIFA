@@ -90,6 +90,7 @@ final class AddRecipeViewModel: ObservableObject {
                     
                     if statusCode == 200 || statusCode == 201 {
                         print("SUCCESS")
+                        
                     } else {
                         print("FAILURE")
                     }

@@ -20,7 +20,6 @@ struct ContentView: View {
                 }
             
             // TODO: SearchView allows users to add a list of ingredients and get suggestions for which recipes they could make with those
-            // TODO: A random recipe to appear and people can swipe
             SearchView()
                 .tabItem {
                     Label("Search", systemImage: "magnifyingglass")

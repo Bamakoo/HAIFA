@@ -21,5 +21,14 @@ extension UseCase {
                 .decode(type: Recipes.self, decoder: decoder)
                 .eraseToAnyPublisher()
         }
+        static func fetchRecipe(for url: URL) async throws -> some Publisher<Recipe, Error> {
+            let decoder = JSONDecoder()
+            return URLSession
+                .shared
+                .dataTaskPublisher(for: url)
+                .map(\.data)
+                .decode(type: Recipe.self, decoder: decoder)
+                .eraseToAnyPublisher()
+        }
     }
 }

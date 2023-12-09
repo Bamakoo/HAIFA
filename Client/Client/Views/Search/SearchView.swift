@@ -6,11 +6,24 @@
 //
 
 import SwiftUI
-// TODO: users can view a random recipe
 // TODO: users can input a list of ingredients and get back a list of recipes that they can make with those ingredients
 struct SearchView: View {
+    
+    @StateObject private var viewModel = SearchViewModel()
+    @State private var showingSheet = false
+    
     var body: some View {
-        Text("Search")
+        Button {
+            Task {
+                showingSheet.toggle()
+                try await viewModel.fetchRandomRecipe()
+            }
+        } label: {
+            Text("Discover a random recipe!")
+        }
+        .sheet(isPresented: $showingSheet) {
+            RecipeDetailView(recipe: Binding.constant(viewModel.randomRecipe))
+        }
     }
 }
 

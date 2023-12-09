@@ -287,9 +287,13 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "104"
+<<<<<<< HEAD
             endingLineNumber = "104"
             landmarkName = "body"
             landmarkType = "24">
+=======
+            endingLineNumber = "104">
+>>>>>>> 3f13f0a6f56dc0f871c4b56d189016fe32c2545e
             <Locations>
                <Location
                   uuid = "1ABA97FE-9273-4E3E-BB3C-6C43D2DA2D7E - 29b8653d95dca42a"
@@ -381,9 +385,13 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "106"
+<<<<<<< HEAD
             endingLineNumber = "106"
             landmarkName = "body"
             landmarkType = "24">
+=======
+            endingLineNumber = "106">
+>>>>>>> 3f13f0a6f56dc0f871c4b56d189016fe32c2545e
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

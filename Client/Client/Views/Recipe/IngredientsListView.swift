@@ -11,10 +11,16 @@ struct IngredientsListView: View {
     let ingredients: Array<Ingredient>
     
     var body: some View {
-            ForEach(ingredients, id: \.self) { ingredient in
+        ForEach(ingredients, id: \.self) { ingredient in
+            HStack {
+                Text(String(ingredient.quantity))
+                if ingredient.unit != "NA" {
+                    Text(ingredient.unit.capitalized)
+                }
                 Text(ingredient.name.capitalized)
-                    // TODO: IngredientRowView
+                // TODO: IngredientRowView
             }
+        }
     }
 }
 

@@ -34,7 +34,6 @@ struct CuisineController: RouteCollection {
             throw Abort(.notFound)
         }
         try await cuisine.save(on: req.db)
-        // TODO: implement Logging on a larger scale
         req.logger.info("\(cuisine.country) has been successfully saved to DB")
         return try await cuisine.encodeResponse(status: .created, for: req)
     }

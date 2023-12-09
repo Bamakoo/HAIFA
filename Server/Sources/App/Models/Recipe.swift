@@ -42,9 +42,7 @@ final class Recipe: Model, Content {
     
     @Timestamp(key: "deleted_at", on: .delete)
     var deletedAt: Date?
-    
-    // TODO: add createdAt, updatedAt and deletedAt
-    
+        
     init() {}
     
     init(id: UUID?,

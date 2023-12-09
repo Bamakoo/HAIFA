@@ -7,7 +7,8 @@
 
 import Foundation
 
-enum RecipeType : String, Codable {
+enum RecipeType : String, Identifiable, Codable, CaseIterable {
+    var id: Self { self }
     case dessert
     case snack
     case lunch

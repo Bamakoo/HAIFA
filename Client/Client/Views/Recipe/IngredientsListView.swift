@@ -15,14 +15,6 @@ struct IngredientsListView: View {
                 Text(ingredient.name.capitalized)
                     // TODO: IngredientRowView
             }
-        .task {
-            print(ingredients)
-        }
     }
 }
 
-//struct IngredientsListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        IngredientsListView(ingredients: Array<Ingredient>())
-//    }
-//}

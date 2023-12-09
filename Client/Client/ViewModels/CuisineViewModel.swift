@@ -11,9 +11,9 @@ import Combine
 final class CuisineViewModel: ObservableObject {
     @Published var cuisines = [Cuisine]()
         
-    func fetchCuisines() throws {
+    func fetchCuisines() async throws {
 
-        try UseCase.Cuisine.fetchCuisines()
+        try await UseCase.Cuisine.fetchCuisines()
             .receive(on: DispatchQueue.main)
             .replaceError(with: [])
             .assign(to: &$cuisines)

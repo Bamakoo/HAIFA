@@ -1,10 +1,16 @@
 import Fluent
 import Vapor
 
+// TODO: Ingredients Table
+// TODO: use integers instead of Doubles
+// TODO: Readme.MD
+// TODO: LI profile
+
 struct RecipeController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         let recipes = routes.grouped("recipes")
         recipes.get(use: index)
+        // TODO: use urlqueries on standard, classic HTTP GET
         recipes.get("random", use: random)
         recipes.post(use: create)
         recipes.group(":recipeID") { recipe in
@@ -13,7 +19,8 @@ struct RecipeController: RouteCollection {
             recipe.delete(use: delete)
         }
     }
-    // TODO: use urlqueries on standard, classic HTTP GET
+    
+    // TODO: use urlqueries on standard, classic HTTP GET instead of this implementation
     func random(req: Request) async throws -> Recipe {
         let recipes = try await Recipe.query(on: req.db).all()
         req.logger.info("Successfully fetch all the recipes")
@@ -43,8 +50,7 @@ struct RecipeController: RouteCollection {
         }
         req.logger.info("Fetched \(recipe) from DB")
 
-        // TODO: make sure that PATCH funcs work ie unit test it
-        // TODO: Users can add a single step or ingredient instead of the full array or dictionary
+        // TODO: Users can add a single step ie a dictionary entry
         
         let patch = try req.content.decode(PatchRecipe.self)
         req.logger.info("Decoded \(patch) from request")
@@ -95,7 +101,7 @@ struct RecipeController: RouteCollection {
     func create(req: Request) async throws -> Response {
         let recipe = try req.content.decode(Recipe.self)
         try await recipe.save(on: req.db)
-        req.logger.info("A new recipe for \(recipe.title) has been successfully saved to DB")
+        req.logger.info("A new recipe : \(recipe.title) has been successfully saved to DB")
         return try await recipe.encodeResponse(status: .created, for: req)
     }
     

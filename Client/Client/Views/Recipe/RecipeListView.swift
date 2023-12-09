@@ -24,17 +24,22 @@ struct RecipeListView: View {
                     .ignoresSafeArea()
             )
             .listRowSeparator(.hidden, edges: .bottom)
-            .listRowInsets(EdgeInsets.init(top: 0, leading: 10, bottom: 0, trailing: 10))
+            .listRowInsets(EdgeInsets.init(top: 0,
+                                           leading: 10,
+                                           bottom: 0,
+                                           trailing: 10))
         }
         .scrollContentBackground(.hidden)
         .environment(\.defaultMinListRowHeight, 90)
         .listStyle(.automatic)
         .navigationTitle("Recipes")
         .onChange(of: selectedCuisine) { cuisine in
-            do {
-                try viewModel.fetchRecipes(for: cuisine)
-            } catch {
-                print(error)
+            Task {
+                do {
+                    try await viewModel.fetchRecipes(for: cuisine)
+                } catch {
+                    print(error)
+                }
             }
         }
     }

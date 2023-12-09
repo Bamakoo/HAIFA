@@ -13,7 +13,7 @@ struct ContentView: View {
         TabView {
             
             // TODO: Homepage
-            
+            // TODO: Each country has a detailed page with info about the different dishes
             WorldCuisineMenuView()
                 .tabItem {
                     Label("Explore", systemImage: "network") // compass instead
@@ -42,7 +42,6 @@ struct ContentView: View {
                     Label("Profile", systemImage: "person") // users' photo instead
                 }
         }
-        // TODO: Each country has a detailed page with info about the different dishes
     }
 }
 

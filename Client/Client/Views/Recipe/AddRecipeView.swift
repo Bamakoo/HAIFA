@@ -98,13 +98,8 @@ struct AddRecipeView: View {
                           prompt: Text("First Ingredient's measuring unit (ex: grams)"))
             }
             Button {
-                // TODO: REFACTOR remove do catch logic from views
                 Task {
-                    do {
-                        try await viewModel.createRecipe()
-                    } catch {
-                        print(error.localizedDescription)
-                    }
+                    try await viewModel.createRecipe()
                 }
             } label: {
                 Text("Submit recipe!")

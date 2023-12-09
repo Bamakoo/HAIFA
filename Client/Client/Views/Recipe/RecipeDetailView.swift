@@ -15,8 +15,8 @@ struct RecipeDetailView: View {
     var body: some View {
         
         // TODO: Design this view properly, exquisite look and feel
-        // TODO: ask Vapor Core Team about deployments
-        // TODO: ask Vapor Core Team about storing Images/photos
+        // TODO: ask Vapor Core Team about deployments + CI/CD
+        // TODO: ask Vapor Core Team about storing Images/photos as Data?
         
         if let recipe = recipe {
             // ScrollView inside of it:

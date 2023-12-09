@@ -14,18 +14,22 @@ final class RecipeViewModel: ObservableObject {
     // TODO: a real Combine Architecture is implemented
     // TODO: leverage URL Components
     func fetchRecipes(for cuisine : Cuisine?) async throws {
-        guard let cuisine = cuisine,
-              let cuisineID = cuisine.id else {
-           throw UnwrappingError.failed
+        do {
+            guard let cuisine = cuisine,
+                  let cuisineID = cuisine.id else {
+                throw UnwrappingError.failed
+            }
+            
+            guard let url = URL(string: "http://127.0.0.1:8080/cuisines/\(cuisineID)/recipes") else {
+                throw NetworkingError.badURL
+            }
+            
+            try await UseCase.CuisineRecipe.fetchRecipes(for: url)
+                .receive(on: DispatchQueue.main)
+                .replaceError(with: [])
+                .assign(to: &$recipes)
+        } catch {
+            print(error.localizedDescription)
         }
-        
-        guard let url = URL(string: "http://127.0.0.1:8080/cuisines/\(cuisineID)/recipes") else {
-            throw NetworkingError.badURL
-        }
-        
-        try await UseCase.CuisineRecipe.fetchRecipes(for: url)
-            .receive(on: DispatchQueue.main)
-            .replaceError(with: [])
-            .assign(to: &$recipes)
     }
 }

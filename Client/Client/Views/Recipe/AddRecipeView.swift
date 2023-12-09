@@ -27,6 +27,13 @@ struct AddRecipeView: View {
                 Text("Make these as descriptive as possible so people can find your recipes")
             }
             Stepper(
+                value: $viewModel.recipeDifficulty,
+                in: 1...10,
+                step: 1
+            ) {
+                Text("\(viewModel.recipeDifficulty)/10 level of difficulty")
+            }
+            Stepper(
                 value: $viewModel.time,
                 in: 1...500,
                 step: 1

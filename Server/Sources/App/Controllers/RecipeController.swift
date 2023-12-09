@@ -3,8 +3,8 @@ import Vapor
 
 // TODO: Ingredients Table
 // TODO: use integers instead of Doubles
-// TODO: Readme.MD
-// TODO: LI profile
+// TODO: touch Readme.MD
+// TODO: revamp' LI profile
 
 struct RecipeController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
@@ -19,16 +19,7 @@ struct RecipeController: RouteCollection {
             recipe.delete(use: delete)
         }
     }
-    // TODO: use urlqueries on standard, classic HTTP GET
-    func random(req: Request) async throws -> Recipe {
-        let recipes = try await Recipe.query(on: req.db).all()
-        req.logger.info("Successfully fetch all the recipes")
-        guard let recipe = recipes.randomElement() else {
-            req.logger.info("Unable to get a random recipe")
-            throw Abort(.notFound)
-        }
-        return recipe
-    }
+
     
     // TODO: use urlqueries on standard, classic HTTP GET instead of this implementation
     func random(req: Request) async throws -> Recipe {
@@ -41,11 +32,7 @@ struct RecipeController: RouteCollection {
         return recipe
     }
     
-    func indexRecipe(req: Request) async throws -> Response {
-        guard let recipe = try await Recipe.find(req.parameters.get("recipeID"), on: req.db) else {
-            req.logger.info("Unable to fetch recipe from DB")
-            throw Abort(.notFound)
-        }
+
     func indexRecipe(req: Request) async throws -> Response {
         guard let recipe = try await Recipe.find(req.parameters.get("recipeID"), on: req.db) else {
             req.logger.info("Unable to fetch recipe from DB")
@@ -64,13 +51,6 @@ struct RecipeController: RouteCollection {
             throw Abort(.notFound)
         }
         req.logger.info("Fetched \(recipe) from DB")
-
-<<<<<<< HEAD
-        // TODO: Users can add a single step ie a dictionary entry
-=======
-        // TODO: make sure that PATCH funcs work ie unit test it
-        // TODO: Users can add a single step or ingredient instead of the full array or dictionary
->>>>>>> 3f13f0a6f56dc0f871c4b56d189016fe32c2545e
         
         let patch = try req.content.decode(PatchRecipe.self)
         req.logger.info("Decoded \(patch) from request")

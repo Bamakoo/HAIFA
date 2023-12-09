@@ -10,7 +10,7 @@ import Foundation
 struct PatchRecipe: Codable {
     let title: String?
     let recipeType: RecipeType?
-    let time: Double?
+    let time: Int?
     /// Used to add an ingredient to the list
     let ingredient: Ingredient?
     /// Used to send a new list of ingredients

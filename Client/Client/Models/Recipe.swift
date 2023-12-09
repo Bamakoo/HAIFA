@@ -14,7 +14,8 @@ struct Recipe: Hashable, Codable, Identifiable {
     let title: String
     let description: String
     let recipeType: RecipeType
-    let time: Double
+    let time: Int
+    let difficulty: Int
     let ingredients: [Ingredient]
     let steps: [String: String]
     let cuisine: Cuisine

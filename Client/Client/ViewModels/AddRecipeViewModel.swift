@@ -14,7 +14,7 @@ final class AddRecipeViewModel: ObservableObject {
     @Published var recipeDescription = String()
     // TODO: time w/ INT
     // TODO: add a level of difficulty for the recipe
-    @Published var time: Double = 0.1
+    @Published var time: Int = 1
     @Published var cuisines = [Cuisine]()
     // TODO: fix selectedCuisine
     @Published var selectedCuisine = Cuisine(id: nil,
@@ -27,12 +27,14 @@ final class AddRecipeViewModel: ObservableObject {
     @Published var selectedRecipeType: RecipeType = .mainCourse
     
     @Published var ingredientOneName = String()
-    @Published var ingredientOneQuantity: Double = 1.0
+    @Published var ingredientOneQuantity: Int = 1
     @Published var ingredientOneUnit = String()
     
     @Published var ingredientTwoName = String()
-    @Published var ingredientTwoQuantity: Double = 1.0
+    @Published var ingredientTwoQuantity: Int = 1
     @Published var ingredientTwoUnit = String()
+    
+    @Published var recipeDifficulty: Int = 1
     
     var storage = Set<AnyCancellable>()
     
@@ -51,6 +53,7 @@ final class AddRecipeViewModel: ObservableObject {
                                        description: recipeDescription,
                                        recipeType: selectedRecipeType,
                                        time: time,
+                                       difficulty: recipeDifficulty,
                                        ingredients: [.init(name: ingredientOneName, quantity: ingredientOneQuantity, unit: ingredientOneUnit),
                                                      .init(name: ingredientTwoName, quantity: ingredientTwoQuantity, unit: ingredientTwoUnit)],
                                        steps: ["step1": stepOne,

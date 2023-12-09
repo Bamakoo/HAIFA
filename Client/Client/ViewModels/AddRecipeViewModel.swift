@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 final class AddRecipeViewModel: ObservableObject {
-    
+
     @Published var recipeTitle = String()
     @Published var recipeDescription = String()
     // TODO: time w/ INT
@@ -25,10 +25,15 @@ final class AddRecipeViewModel: ObservableObject {
     @Published var stepFour = String()
     @Published var stepFive = String()
     @Published var selectedRecipeType: RecipeType = .mainCourse
+
     @Published var ingredientOneName = String()
     @Published var ingredientOneQuantity: Double = 1.0
     @Published var ingredientOneUnit = String()
-    
+
+    @Published var ingredientTwoName = String()
+    @Published var ingredientTwoQuantity: Double = 1.0
+    @Published var ingredientTwoUnit = String()
+
     var storage = Set<AnyCancellable>()
 
     func fetchCuisines() async throws {
@@ -45,7 +50,8 @@ final class AddRecipeViewModel: ObservableObject {
                                    description: recipeDescription,
                                    recipeType: selectedRecipeType,
                                    time: time,
-                                   ingredients: [.init(name: ingredientOneName, quantity: ingredientOneQuantity, unit: ingredientOneUnit)],
+                                   ingredients: [.init(name: ingredientOneName, quantity: ingredientOneQuantity, unit: ingredientOneUnit),
+                                                 .init(name: ingredientTwoName, quantity: ingredientTwoQuantity, unit: ingredientTwoUnit)],
                                    steps: ["step1": stepOne,
                                            "step2": stepTwo,
                                            "step3": stepThree,
@@ -84,6 +90,6 @@ final class AddRecipeViewModel: ObservableObject {
                     print("FAILURE")
                 }
             })
-                .store(in:&self.storage)
+            .store(in:&self.storage)
     }
 }

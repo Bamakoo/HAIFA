@@ -82,6 +82,21 @@ struct AddRecipeView: View {
                           text: $viewModel.ingredientOneUnit,
                           prompt: Text("First Ingredient's measuring unit (ex: grams)"))
             }
+            Section {
+                TextField("Second Ingredient's name",
+                          text: $viewModel.ingredientTwoName,
+                          prompt: Text("Enter the second ingredients name"))
+                Stepper(
+                    value: $viewModel.ingredientTwoName,
+                    in: 1...500,
+                    step: 1
+                ) {
+                    Text("\(viewModel.ingredientTwoQuantity) of \(viewModel.ingredientTwoName)")
+                }
+                TextField("First Ingredient's measuring unit (ex: grams)",
+                          text: $viewModel.ingredientTwoUnit,
+                          prompt: Text("First Ingredient's measuring unit (ex: grams)"))
+            }
             Button {
                 // TODO: REFACTOR remove do catch logic from views
                 Task {

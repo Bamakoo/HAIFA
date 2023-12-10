@@ -15,3 +15,10 @@ extension CuisineController {
         return true
     }
 }
+
+extension Recipe {
+    /// The struct used to decode the query filters. 
+    struct QueryFilter: Content {
+        let random: Bool?
+    }
+}

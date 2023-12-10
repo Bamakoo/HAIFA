@@ -26,7 +26,7 @@ final class SearchViewModel: ObservableObject {
     
     func fetchRandomRecipe() async throws {
         do {
-            guard let url = URL(string: "http://127.0.0.1:8080/recipes/random") else {
+            guard let url = URL(string: "http://127.0.0.1:8080/recipes?random=true") else {
                 throw NetworkingError.badURL
             }
             // TODO: better error handling

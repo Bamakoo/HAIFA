@@ -2,7 +2,6 @@ import Fluent
 import Vapor
 
 // TODO: Ingredients Table
-// TODO: use integers instead of Doubles
 // TODO: touch Readme.MD
 // TODO: revamp' LI profile
 
@@ -10,8 +9,6 @@ struct RecipeController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         let recipes = routes.grouped("recipes")
         recipes.get(use: index)
-        // TODO: use urlqueries on standard, classic HTTP GET
-        recipes.get("random", use: random)
         recipes.post(use: create)
         recipes.group(":recipeID") { recipe in
             recipe.get(use: indexRecipe)
@@ -19,19 +16,6 @@ struct RecipeController: RouteCollection {
             recipe.delete(use: delete)
         }
     }
-
-    
-    // TODO: use urlqueries on standard, classic HTTP GET instead of this implementation
-    func random(req: Request) async throws -> Recipe {
-        let recipes = try await Recipe.query(on: req.db).all()
-        req.logger.info("Successfully fetch all the recipes")
-        guard let recipe = recipes.randomElement() else {
-            req.logger.info("Unable to get a random recipe")
-            throw Abort(.notFound)
-        }
-        return recipe
-    }
-    
 
     func indexRecipe(req: Request) async throws -> Response {
         guard let recipe = try await Recipe.find(req.parameters.get("recipeID"), on: req.db) else {
@@ -94,8 +78,21 @@ struct RecipeController: RouteCollection {
         return .init(status: .noContent)
     }
     
-    func index(req: Request) async throws -> [Recipe] {
-        try await Recipe.query(on: req.db).all()
+    func index(req: Request) async throws -> Response {
+        let queryItems = try req.query.decode(Recipe.QueryFilter.self)
+        
+        if let random = queryItems.random,
+            random == true {
+            let recipes = try await Recipe.query(on: req.db).all()
+            req.logger.info("Successfully fetch all the recipes")
+            guard let recipe = recipes.randomElement() else {
+                req.logger.info("Unable to get a random recipe")
+                throw Abort(.notFound)
+            }
+            return try await recipe.encodeResponse(status: .ok, for: req)
+        }
+        let recipes = try await Recipe.query(on: req.db).all()
+        return try await recipes.encodeResponse(status: .ok, for: req)
     }
     
     func create(req: Request) async throws -> Response {

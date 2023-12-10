@@ -11,19 +11,9 @@ struct RecipeController: RouteCollection {
         recipes.get(use: index)
         recipes.post(use: create)
         recipes.group(":recipeID") { recipe in
-            recipe.get(use: indexRecipe)
             recipe.patch(use: update)
             recipe.delete(use: delete)
         }
-    }
-
-    func indexRecipe(req: Request) async throws -> Response {
-        guard let recipe = try await Recipe.find(req.parameters.get("recipeID"), on: req.db) else {
-            req.logger.info("Unable to fetch recipe from DB")
-            throw Abort(.notFound)
-        }
-        req.logger.info("successfully fetched Recipe from DB")
-        return try await recipe.encodeResponse(status: .ok, for: req)
     }
     
     /// Function called by a /recipes/:recipeID HTTP PATCH network call
@@ -38,7 +28,7 @@ struct RecipeController: RouteCollection {
         
         let patch = try req.content.decode(PatchRecipe.self)
         req.logger.info("Decoded \(patch) from request")
-
+        
         if let title = patch.title {
             recipe.title = title
             req.logger.info("New title \(title) for recipe: \(recipe)")
@@ -80,15 +70,24 @@ struct RecipeController: RouteCollection {
     
     func index(req: Request) async throws -> Response {
         let queryItems = try req.query.decode(Recipe.QueryFilter.self)
-        
+        // MARK: When called, returns a single, random recipe
         if let random = queryItems.random,
-            random == true {
+           random == true {
             let recipes = try await Recipe.query(on: req.db).all()
             req.logger.info("Successfully fetch all the recipes")
             guard let recipe = recipes.randomElement() else {
                 req.logger.info("Unable to get a random recipe")
                 throw Abort(.notFound)
             }
+            return try await recipe.encodeResponse(status: .ok, for: req)
+        }
+        // MARK: returns a specific recipe
+        if let recipeID = queryItems.recipeID {
+            guard let recipe = try await Recipe.find(recipeID, on: req.db) else {
+                req.logger.info("Unable to fetch recipe from DB")
+                throw Abort(.notFound)
+            }
+            req.logger.info("successfully fetched Recipe from DB")
             return try await recipe.encodeResponse(status: .ok, for: req)
         }
         let recipes = try await Recipe.query(on: req.db).all()

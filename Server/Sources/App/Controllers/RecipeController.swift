@@ -82,14 +82,12 @@ struct RecipeController: RouteCollection {
             return try await recipe.encodeResponse(status: .ok, for: req)
         }
         // MARK: returns a specific recipe
-        if let recipeID = queryItems.recipeID {
-            guard let recipe = try await Recipe.find(recipeID, on: req.db) else {
-                req.logger.info("Unable to fetch recipe from DB")
-                throw Abort(.notFound)
-            }
+        if let recipeID = queryItems.recipeID,
+            let recipe = try await Recipe.find(recipeID, on: req.db) {
             req.logger.info("successfully fetched Recipe from DB")
             return try await recipe.encodeResponse(status: .ok, for: req)
         }
+        // MARK: no query items, return all the recipes in the DB
         let recipes = try await Recipe.query(on: req.db).all()
         return try await recipes.encodeResponse(status: .ok, for: req)
     }

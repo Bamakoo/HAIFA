@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import Vapor
 
 /// A Codable Struct to represent a single Ingredient in a recipe
-struct Ingredient: Codable {
+struct Ingredient: Codable, Equatable, Content {
     /// the ingredient's name
     let name: String
     /// The amount or quantity of the ingredient that is required for the recipe

@@ -13,13 +13,21 @@ struct SearchView: View {
     @State private var showingSheet = false
     
     var body: some View {
-        Button {
-            Task {
-                showingSheet.toggle()
-                try await viewModel.fetchRandomRecipe()
+        ScrollView {
+            Grid(alignment: .bottom, horizontalSpacing: 1, verticalSpacing: 1) {
+                GridRow {
+                    Text("Row 1")
+                    ForEach(0..<2) { _ in Color.red }
+                }
             }
-        } label: {
-            Text("Discover a random recipe!")
+            Button {
+                Task {
+                    showingSheet.toggle()
+                    try await viewModel.fetchRandomRecipe()
+                }
+            } label: {
+                Text("Discover a random recipe!")
+            }
         }
         .sheet(isPresented: $showingSheet) {
             RecipeDetailView(recipe: Binding.constant(viewModel.randomRecipe))

@@ -29,3 +29,7 @@ struct IngredientController: RouteCollection {
         return try await recipes.encodeResponse(status: .ok, for: req)
     }
 }
+
+// TODO: Combine Architecture
+// TODO: UIKit Profile
+// TODO: Pictures/Camera

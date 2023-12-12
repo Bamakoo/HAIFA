@@ -9,15 +9,35 @@ import SwiftUI
 // TODO: users can input a list of ingredients and get back a list of recipes that they can make with those ingredients
 struct SearchView: View {
     
+    let layout = [
+        GridItem(.adaptive(minimum: 80)),
+        GridItem(.adaptive(minimum: 80)),
+        GridItem(.adaptive(minimum: 80)),
+        GridItem(.adaptive(minimum: 80)),
+    ]
+    
     @StateObject private var viewModel = SearchViewModel()
     @State private var showingSheet = false
     
     var body: some View {
         ScrollView {
-            Grid(alignment: .bottom, horizontalSpacing: 1, verticalSpacing: 1) {
-                GridRow {
-                    Text("Row 1")
-                    ForEach(0..<2) { _ in Color.red }
+            //            Grid(alignment: .bottom, horizontalSpacing: 1, verticalSpacing: 1) {
+            //                GridRow {
+            //                    ForEach(viewModel.ingredients[0...3], id: \.self) { ingredient in
+            //                        Text(ingredient)
+            //                    }
+            //                }
+            //            }
+            LazyVGrid(columns: layout) {
+                ForEach(viewModel.ingredients, id: \.self) { ingredient in
+                    Button {
+                        viewModel.myIngredients.append(ingredient.capitalized)
+                    } label: {
+                        Capsule()
+                            .overlay(Text(ingredient.capitalized).foregroundColor(.white))
+                            .foregroundColor(.blue)
+                            .frame(height: 80)
+                    }
                 }
             }
             Button {
@@ -27,6 +47,13 @@ struct SearchView: View {
                 }
             } label: {
                 Text("Discover a random recipe!")
+            }
+        }
+        .task {
+            do {
+                try await viewModel.fetchIngredients()
+            } catch {
+                print(error.localizedDescription)
             }
         }
         .sheet(isPresented: $showingSheet) {

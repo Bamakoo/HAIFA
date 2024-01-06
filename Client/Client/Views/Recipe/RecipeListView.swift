@@ -35,11 +35,7 @@ struct RecipeListView: View {
         .navigationTitle("Recipes")
         .onChange(of: selectedCuisine) { cuisine in
             Task {
-                do {
-                    try await viewModel.fetchRecipes(for: cuisine)
-                } catch {
-                    print(error)
-                }
+                try await viewModel.fetchRecipes(for: cuisine)
             }
         }
     }

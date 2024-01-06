@@ -20,7 +20,8 @@ struct WorldCuisineMenuView: View {
             RecipeListView(selectedRecipe: $selectedRecipe, selectedCuisine: $selectedCuisine)
         } detail: {
             RecipeDetailView(recipe: $selectedRecipe)
-        } // TODO: see if it's possible to remove detail without breaking everything
+        }
+        // TODO: see if it's possible to remove detail without breaking everything
     }
 }
 

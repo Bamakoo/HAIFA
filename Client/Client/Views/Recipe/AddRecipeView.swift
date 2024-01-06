@@ -22,9 +22,16 @@ struct AddRecipeView: View {
                           axis: .vertical)
                 .textFieldStyle(.roundedBorder)
             } header: {
-                Text("Hello world")
+                Text("The recipe's title and description")
             } footer: {
-                Text("Hello world")
+                Text("Make these as descriptive as possible so people can find your recipes")
+            }
+            Stepper(
+                value: $viewModel.recipeDifficulty,
+                in: 1...10,
+                step: 1
+            ) {
+                Text("\(viewModel.recipeDifficulty)/10 level of difficulty")
             }
             Stepper(
                 value: $viewModel.time,
@@ -87,7 +94,7 @@ struct AddRecipeView: View {
                           text: $viewModel.ingredientTwoName,
                           prompt: Text("Enter the second ingredients name"))
                 Stepper(
-                    value: $viewModel.ingredientTwoName,
+                    value: $viewModel.ingredientTwoQuantity,
                     in: 1...500,
                     step: 1
                 ) {
@@ -98,13 +105,8 @@ struct AddRecipeView: View {
                           prompt: Text("First Ingredient's measuring unit (ex: grams)"))
             }
             Button {
-                // TODO: REFACTOR remove do catch logic from views
                 Task {
-                    do {
-                        try await viewModel.createRecipe()
-                    } catch {
-                        print(error.localizedDescription)
-                    }
+                    try await viewModel.createRecipe()
                 }
             } label: {
                 Text("Submit recipe!")

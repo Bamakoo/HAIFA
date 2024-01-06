@@ -13,14 +13,13 @@ struct ContentView: View {
         TabView {
             
             // TODO: Homepage
-            
+            // TODO: Each country has a detailed page with info about the different dishes
             WorldCuisineMenuView()
                 .tabItem {
                     Label("Explore", systemImage: "network") // compass instead
                 }
             
             // TODO: SearchView allows users to add a list of ingredients and get suggestions for which recipes they could make with those
-            // TODO: A random recipe to appear and people can swipe
             SearchView()
                 .tabItem {
                     Label("Search", systemImage: "magnifyingglass")
@@ -42,7 +41,6 @@ struct ContentView: View {
                     Label("Profile", systemImage: "person") // users' photo instead
                 }
         }
-        // TODO: Each country has a detailed page with info about the different dishes
     }
 }
 

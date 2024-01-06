@@ -2,57 +2,18 @@ import Fluent
 import Vapor
 
 // TODO: Ingredients Table
-// TODO: use integers instead of Doubles
-// TODO: Readme.MD
-// TODO: LI profile
+// TODO: touch Readme.MD
+// TODO: revamp' LI profile
 
 struct RecipeController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         let recipes = routes.grouped("recipes")
         recipes.get(use: index)
-        // TODO: use urlqueries on standard, classic HTTP GET
-        recipes.get("random", use: random)
         recipes.post(use: create)
         recipes.group(":recipeID") { recipe in
-            recipe.get(use: indexRecipe)
             recipe.patch(use: update)
             recipe.delete(use: delete)
         }
-    }
-    // TODO: use urlqueries on standard, classic HTTP GET
-    func random(req: Request) async throws -> Recipe {
-        let recipes = try await Recipe.query(on: req.db).all()
-        req.logger.info("Successfully fetch all the recipes")
-        guard let recipe = recipes.randomElement() else {
-            req.logger.info("Unable to get a random recipe")
-            throw Abort(.notFound)
-        }
-        return recipe
-    }
-    
-    // TODO: use urlqueries on standard, classic HTTP GET instead of this implementation
-    func random(req: Request) async throws -> Recipe {
-        let recipes = try await Recipe.query(on: req.db).all()
-        req.logger.info("Successfully fetch all the recipes")
-        guard let recipe = recipes.randomElement() else {
-            req.logger.info("Unable to get a random recipe")
-            throw Abort(.notFound)
-        }
-        return recipe
-    }
-    
-    func indexRecipe(req: Request) async throws -> Response {
-        guard let recipe = try await Recipe.find(req.parameters.get("recipeID"), on: req.db) else {
-            req.logger.info("Unable to fetch recipe from DB")
-            throw Abort(.notFound)
-        }
-    func indexRecipe(req: Request) async throws -> Response {
-        guard let recipe = try await Recipe.find(req.parameters.get("recipeID"), on: req.db) else {
-            req.logger.info("Unable to fetch recipe from DB")
-            throw Abort(.notFound)
-        }
-        req.logger.info("successfully fetched Recipe from DB")
-        return try await recipe.encodeResponse(status: .ok, for: req)
     }
     
     /// Function called by a /recipes/:recipeID HTTP PATCH network call
@@ -64,17 +25,10 @@ struct RecipeController: RouteCollection {
             throw Abort(.notFound)
         }
         req.logger.info("Fetched \(recipe) from DB")
-
-<<<<<<< HEAD
-        // TODO: Users can add a single step ie a dictionary entry
-=======
-        // TODO: make sure that PATCH funcs work ie unit test it
-        // TODO: Users can add a single step or ingredient instead of the full array or dictionary
->>>>>>> 3f13f0a6f56dc0f871c4b56d189016fe32c2545e
         
         let patch = try req.content.decode(PatchRecipe.self)
         req.logger.info("Decoded \(patch) from request")
-
+        
         if let title = patch.title {
             recipe.title = title
             req.logger.info("New title \(title) for recipe: \(recipe)")
@@ -114,8 +68,28 @@ struct RecipeController: RouteCollection {
         return .init(status: .noContent)
     }
     
-    func index(req: Request) async throws -> [Recipe] {
-        try await Recipe.query(on: req.db).all()
+    func index(req: Request) async throws -> Response {
+        let queryItems = try req.query.decode(Recipe.QueryFilter.self)
+        // MARK: When called, returns a single, random recipe
+        if let random = queryItems.random,
+           random == true {
+            let recipes = try await Recipe.query(on: req.db).all()
+            req.logger.info("Successfully fetch all the recipes")
+            guard let recipe = recipes.randomElement() else {
+                req.logger.info("Unable to get a random recipe")
+                throw Abort(.notFound)
+            }
+            return try await recipe.encodeResponse(status: .ok, for: req)
+        }
+        // MARK: returns a specific recipe
+        if let recipeID = queryItems.recipeID,
+            let recipe = try await Recipe.find(recipeID, on: req.db) {
+            req.logger.info("successfully fetched Recipe from DB")
+            return try await recipe.encodeResponse(status: .ok, for: req)
+        }
+        // MARK: no query items, return all the recipes in the DB
+        let recipes = try await Recipe.query(on: req.db).all()
+        return try await recipes.encodeResponse(status: .ok, for: req)
     }
     
     func create(req: Request) async throws -> Response {

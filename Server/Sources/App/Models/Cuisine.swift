@@ -14,6 +14,8 @@ final class Cuisine: Model, Content {
     /// The name of the country who's cuisine we're going to enjoy
     var country: String
     
+    // TODO: country description: a description of the country's cuisine
+    
     @Children(for: \.$cuisine)
     var recipes: [Recipe]
     

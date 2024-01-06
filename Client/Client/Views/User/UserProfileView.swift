@@ -9,15 +9,17 @@ import Foundation
 import UIKit
 import SwiftUI
 
-struct UserProfileView: UIViewRepresentable {
-    typealias UIViewType = ProfileView
-
-    func makeUIView(context: Context) -> ProfileView {
-        ProfileView()
+struct UserProfileView: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+        ProfileViewController()
     }
     
-    func updateUIView(_ uiView: ProfileView, context: Context) {
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+        
     }
+    
+    typealias UIViewControllerType = UIViewController
+
 }
 
 

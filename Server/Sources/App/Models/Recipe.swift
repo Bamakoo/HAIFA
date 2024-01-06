@@ -17,13 +17,20 @@ final class Recipe: Model, Content {
     
     // TODO: Add Users + Auth Models, Controllers and Migrations
     // TODO: Add Comments + Likes Models, Controllers and Migrations
-    
+    // TODO: ratings (children)
+    // TODO: Number of calories per recipe helping
+    // TODO: number of helpings/people fed
+
     @Enum(key: "recipe_type")
     var recipeType: RecipeType
     
+    @Field(key: "difficulty")
+    /// the level of difficulty ie how hard the recipe is to make
+    var difficulty: Int
+    
     /// The estimated number of  minutes it takes to complete the recipe
     @Field(key: "time")
-    var time: Double
+    var time: Int
     
     @Field(key: "ingredients")
     var ingredients: [Ingredient]
@@ -36,26 +43,21 @@ final class Recipe: Model, Content {
     
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?
-
+    
     @Timestamp(key: "updated_at", on: .update)
     var updatedAt: Date?
     
     @Timestamp(key: "deleted_at", on: .delete)
     var deletedAt: Date?
-        
-    @Timestamp(key: "updated_at", on: .update)
-    var updatedAt: Date?
     
-    @Timestamp(key: "deleted_at", on: .delete)
-    var deletedAt: Date?
-        
     init() {}
     
     init(id: UUID?,
          title: String,
          description: String,
          recipeType: RecipeType,
-         time: Double,
+         difficulty: Int,
+         time: Int,
          ingredients: [Ingredient],
          steps: [String:String],
          cuisineID: Cuisine.IDValue,
@@ -67,6 +69,7 @@ final class Recipe: Model, Content {
         self.description = description
         self.time = time
         self.recipeType = recipeType
+        self.difficulty = difficulty
         self.ingredients = ingredients
         self.steps = steps
         self.$cuisine.id = cuisineID

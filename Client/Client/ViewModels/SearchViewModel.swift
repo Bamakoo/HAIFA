@@ -21,6 +21,8 @@ final class SearchViewModel: ObservableObject {
     /// Array of strings representing the list of ingredients the user has at his or her disposal
     @Published var myIngredients = Array<String>()
     
+    @Published var newIngredient = String()
+    
     let anotherRandomRecipe = Recipe(id: nil,
                                      title: "",
                                      description: "",

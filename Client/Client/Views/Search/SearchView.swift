@@ -34,11 +34,20 @@ struct SearchView: View {
                         viewModel.myIngredients.append(ingredient.capitalized)
                     } label: {
                         Capsule()
-                            .overlay(Text(ingredient.capitalized).foregroundColor(.white))
-                            .foregroundColor(.blue)
+                            .overlay(Text(ingredient.capitalized)
+                                .foregroundColor(.white))
+                            .foregroundColor(viewModel.myIngredients.contains(ingredient.capitalized) ? .red : .blue)
                             .frame(height: 80)
                     }
                 }
+            }
+            TextField("Add Ingredient", text: $viewModel.newIngredient, prompt: Text("Add Ingredient"))
+            Button {
+                viewModel.ingredients.append(viewModel.newIngredient)
+                viewModel.myIngredients.append(viewModel.newIngredient)
+                viewModel.newIngredient = String()
+            } label: {
+                Text("Add new Ingredient")
             }
             Button {
                 Task {

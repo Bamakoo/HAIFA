@@ -17,6 +17,6 @@ struct PatchRecipe: Codable {
     let ingredients: [Ingredient]?
     // TODO: find out what a single step would look like
     let steps: Dictionary<String, String>?
-    let step: String 
+    let step: String?
     let cuisine: UUID?
 }

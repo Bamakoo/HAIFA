@@ -32,10 +32,10 @@ extension IngredientController {
         var ingredients = Array<String>()
         for recipe in recipes {
             for ingredient in recipe.ingredients {
-                if ingredients.contains(ingredient.name) {
+                if ingredients.contains(ingredient.name) || ingredients.contains(ingredient.name.capitalized) {
                     continue
                 }
-                ingredients.append(ingredient.name)
+                ingredients.append(ingredient.name.capitalized)
             }
         }
         return ingredients
@@ -50,12 +50,14 @@ extension IngredientController {
         let recipes = try await Recipe.query(on: req.db).all()
         var usersRecipes = Array<Recipe>()
         for recipe in recipes {
-            for ingredient in recipe.ingredients where ingredients.contains(ingredient.name) {
+            for ingredient in recipe.ingredients where ingredients.contains(ingredient.name) || ingredients.contains(ingredient.name.capitalized) {
                 usersRecipes.append(recipe)
             }
         }
         return usersRecipes
     }
 }
+
+// TODO: fix significant performance issues with the applied method
 
 

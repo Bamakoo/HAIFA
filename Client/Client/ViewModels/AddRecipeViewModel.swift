@@ -39,8 +39,7 @@ final class AddRecipeViewModel: ObservableObject {
     var storage = Set<AnyCancellable>()
     
     func fetchCuisines() async throws {
-        
-        try await UseCase.Cuisine.fetchCuisines()
+        try UseCase.Cuisine.fetchCuisines()
             .receive(on: DispatchQueue.main)
             .replaceError(with: [])
             .assign(to: &$cuisines)

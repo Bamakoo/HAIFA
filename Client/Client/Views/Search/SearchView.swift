@@ -21,13 +21,6 @@ struct SearchView: View {
     
     var body: some View {
         ScrollView {
-            //            Grid(alignment: .bottom, horizontalSpacing: 1, verticalSpacing: 1) {
-            //                GridRow {
-            //                    ForEach(viewModel.ingredients[0...3], id: \.self) { ingredient in
-            //                        Text(ingredient)
-            //                    }
-            //                }
-            //            }
             LazyVGrid(columns: layout) {
                 ForEach(viewModel.ingredients, id: \.self) { ingredient in
                     Button {

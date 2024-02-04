@@ -8,12 +8,13 @@
 import Foundation
 import Combine
 
+@MainActor
 final class CuisineViewModel: ObservableObject {
     @Published var cuisines = [Cuisine]()
         
     func fetchCuisines() async throws {
 
-        try await UseCase.Cuisine.fetchCuisines()
+        try UseCase.Cuisine.fetchCuisines()
             .receive(on: DispatchQueue.main)
             .replaceError(with: [])
             .assign(to: &$cuisines)

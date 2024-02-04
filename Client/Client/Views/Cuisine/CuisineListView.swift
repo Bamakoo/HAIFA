@@ -22,8 +22,18 @@ struct CuisineListView: View {
                 Color.clear
                     .ignoresSafeArea()
             )
-            .listRowSeparator(.hidden, edges: .bottom)
-            .listRowInsets(EdgeInsets.init(top: 0, leading: 10, bottom: 0, trailing: 10))
+            .listRowSeparator(
+                .hidden,
+                edges: .bottom
+            )
+            .listRowInsets(
+                EdgeInsets.init(
+                    top: 0,
+                    leading: 10,
+                    bottom: 0,
+                    trailing: 10
+                )
+            )
         }
         .scrollContentBackground(.hidden)
         .environment(\.defaultMinListRowHeight, 90)
@@ -35,7 +45,6 @@ struct CuisineListView: View {
                 print(error.localizedDescription)
             }
         }
-        .foregroundColor(Color.black)
     }
 }
 

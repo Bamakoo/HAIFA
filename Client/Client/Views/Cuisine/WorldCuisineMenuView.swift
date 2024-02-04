@@ -15,11 +15,18 @@ struct WorldCuisineMenuView: View {
     
     var body: some View {
         NavigationSplitView {
-            CuisineListView(selectedCuisine: $selectedCuisine)
+            CuisineListView(
+                selectedCuisine: $selectedCuisine
+            )
         } content: {
-            RecipeListView(selectedRecipe: $selectedRecipe, selectedCuisine: $selectedCuisine)
+            RecipeListView(
+                selectedRecipe: $selectedRecipe,
+                selectedCuisine: $selectedCuisine
+            )
         } detail: {
-            RecipeDetailView(recipe: $selectedRecipe)
+            RecipeDetailView(
+                recipe: $selectedRecipe
+            )
         }
         // TODO: see if it's possible to remove detail without breaking everything
     }

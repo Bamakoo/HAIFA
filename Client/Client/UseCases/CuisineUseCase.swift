@@ -10,18 +10,22 @@ import Combine
 
 extension UseCase {
     struct Cuisine {
-        static func fetchCuisines() async throws -> some Publisher<Cuisines, Error> {
-            
-            guard let url = URL(string: "http://127.0.0.1:8080/cuisines") else {
-                throw NetworkingError.badURL
-            }
-            
-            let decoder = JSONDecoder()
+        static func fetchCuisines() throws -> some Publisher<Cuisines, Error> {
+            let urlComponents = URLComponents()
+            let url = try urlComponents.build(
+                with: "/cuisines",
+                and: nil
+            )
+            let urlRequest = RequestFactory.build(
+                from: url,
+                with: .get,
+                and: nil
+            )
             return URLSession
                 .shared
-                .dataTaskPublisher(for: url)
+                .dataTaskPublisher(for: urlRequest)
                 .map(\.data)
-                .decode(type: Cuisines.self, decoder: decoder)
+                .decode(type: Cuisines.self, decoder: JSONDecoder())
                 .eraseToAnyPublisher()
         }
     }

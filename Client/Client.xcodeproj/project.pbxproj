@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		848010842B6FB856006AC92B /* CuisinesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848010832B6FB856006AC92B /* CuisinesAPI.swift */; };
+		84E0F65A2B6E75FB00E9A040 /* RequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E0F6592B6E75FB00E9A040 /* RequestFactory.swift */; };
+		84E0F65C2B6E766700E9A040 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E0F65B2B6E766700E9A040 /* HTTPMethod.swift */; };
+		84E0F65E2B6E776400E9A040 /* URLFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E0F65D2B6E776400E9A040 /* URLFactory.swift */; };
+		84E0F6602B6E7EEF00E9A040 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E0F65F2B6E7EEF00E9A040 /* API.swift */; };
+		84E0F6622B6E7F7F00E9A040 /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E0F6612B6E7F7F00E9A040 /* HTTP.swift */; };
 		B5087C822AFE81E200E30143 /* ClientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5087C812AFE81E200E30143 /* ClientApp.swift */; };
 		B5087C842AFE81E200E30143 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5087C832AFE81E200E30143 /* ContentView.swift */; };
 		B5087C862AFE81EA00E30143 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5087C852AFE81EA00E30143 /* Assets.xcassets */; };
@@ -61,6 +67,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		848010832B6FB856006AC92B /* CuisinesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuisinesAPI.swift; sourceTree = "<group>"; };
+		84E0F6592B6E75FB00E9A040 /* RequestFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestFactory.swift; sourceTree = "<group>"; };
+		84E0F65B2B6E766700E9A040 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		84E0F65D2B6E776400E9A040 /* URLFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLFactory.swift; sourceTree = "<group>"; };
+		84E0F65F2B6E7EEF00E9A040 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		84E0F6612B6E7F7F00E9A040 /* HTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
 		B5087C7E2AFE81E200E30143 /* Client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Client.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5087C812AFE81E200E30143 /* ClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientApp.swift; sourceTree = "<group>"; };
 		B5087C832AFE81E200E30143 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -126,6 +138,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		848010852B6FB8F3006AC92B /* API */ = {
+			isa = PBXGroup;
+			children = (
+				84E0F65F2B6E7EEF00E9A040 /* API.swift */,
+				848010832B6FB856006AC92B /* CuisinesAPI.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		84E0F6582B6E750100E9A040 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				848010852B6FB8F3006AC92B /* API */,
+				84E0F6592B6E75FB00E9A040 /* RequestFactory.swift */,
+				84E0F6612B6E7F7F00E9A040 /* HTTP.swift */,
+				84E0F65D2B6E776400E9A040 /* URLFactory.swift */,
+				84E0F65B2B6E766700E9A040 /* HTTPMethod.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
 		B5087C752AFE81E200E30143 = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +184,7 @@
 			children = (
 				B5087C812AFE81E200E30143 /* ClientApp.swift */,
 				B5087C832AFE81E200E30143 /* ContentView.swift */,
+				84E0F6582B6E750100E9A040 /* Networking */,
 				B59E348A2B0D0396002653F3 /* Utilities */,
 				B567E1042B07C0620023447E /* Views */,
 				B567E1032B07C0540023447E /* ViewModels */,
@@ -427,14 +461,20 @@
 				B57C0E322B0F8C7D00D810EA /* RecipeRowView.swift in Sources */,
 				B57C0E342B0F959A00D810EA /* CuisineRowView.swift in Sources */,
 				B59E34982B0D1277002653F3 /* RecipeDetailView.swift in Sources */,
+				84E0F65A2B6E75FB00E9A040 /* RequestFactory.swift in Sources */,
 				B5087C822AFE81E200E30143 /* ClientApp.swift in Sources */,
 				B57C0E2C2B0E56CE00D810EA /* Ingredient.swift in Sources */,
 				B567E0FF2B07BEB50023447E /* Recipe.swift in Sources */,
 				B5CCF4692B1623E100EBD62B /* ProfileViewController.swift in Sources */,
+				84E0F65C2B6E766700E9A040 /* HTTPMethod.swift in Sources */,
 				B5CF84AC2B13C46D00131FE5 /* AddRecipeView.swift in Sources */,
+				84E0F6602B6E7EEF00E9A040 /* API.swift in Sources */,
+				84E0F65E2B6E776400E9A040 /* URLFactory.swift in Sources */,
+				848010842B6FB856006AC92B /* CuisinesAPI.swift in Sources */,
 				B59E34962B0D1198002653F3 /* RecipeViewModel.swift in Sources */,
 				B5CF84AE2B13C52500131FE5 /* LikesView.swift in Sources */,
 				B5CCF46F2B175C6F00EBD62B /* RecipeStepsListView.swift in Sources */,
+				84E0F6622B6E7F7F00E9A040 /* HTTP.swift in Sources */,
 				B5AC37772B25128D00448F00 /* SearchViewModel.swift in Sources */,
 				B5CCF46B2B16568C00EBD62B /* MenuSelector.swift in Sources */,
 				B5CF84A82B123C9600131FE5 /* UserProfileView.swift in Sources */,

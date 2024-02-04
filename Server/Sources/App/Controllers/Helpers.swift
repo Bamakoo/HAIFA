@@ -1,6 +1,8 @@
 import Fluent
 import Vapor
 import Foundation
+import FluentSQL
+
 // MARK: CuisineController extension: helper functions
 extension CuisineController {
     /// Helper function used to ascertain wether a new world cuisine can be added
@@ -10,7 +12,7 @@ extension CuisineController {
     /// - Returns: a true Boolean if the new cuisine can be added to the DB because it doesn't already exist, false if it can't.
     func canAddNewCuisine(_ newCuisine: String, req: Request) async throws -> Bool {
         let cuisines = try await Cuisine.query(on: req.db).all()
-        for cuisine in cuisines where cuisine.country == newCuisine {
+        for cuisine in cuisines where cuisine.country == newCuisine || cuisine.country.capitalized == newCuisine.capitalized {
             return false
         }
         return true
@@ -24,6 +26,10 @@ extension Recipe {
         let random: Bool?
         let recipeID: UUID?
     }
+}
+
+enum DBError: Error {
+    case isNotSQL
 }
 
 // MARK: Ingredient Controller helper functions
@@ -47,8 +53,14 @@ extension IngredientController {
     ///   - req: the incoming HTTP POST request to /ingredients endpoint
     /// - Returns: all the recipes that require the use of at least one of the ingredients
     func fetchRecipesWithMyIngredients(_ ingredients: [String], req: Request) async throws -> [Recipe] {
-        let recipes = try await Recipe.query(on: req.db).all()
+        var recipes = Array<Recipe>()
         var usersRecipes = Array<Recipe>()
+        if let sql = req.db as? SQLDatabase {
+            recipes = try await sql.raw("SELECT * FROM recipes")
+                .all(decoding: Recipe.self)
+        } else {
+            throw DBError.isNotSQL
+        }
         for recipe in recipes {
             for ingredient in recipe.ingredients where ingredients.contains(ingredient.name) || ingredients.contains(ingredient.name.capitalized) {
                 usersRecipes.append(recipe)

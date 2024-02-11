@@ -35,7 +35,10 @@ struct CuisineController: RouteCollection {
         }
         try await cuisine.save(on: req.db)
         req.logger.info("\(cuisine.country) has been successfully saved to DB")
-        return try await cuisine.encodeResponse(status: .created, for: req)
+        return try await cuisine.encodeResponse(
+            status: .created,
+            for: req
+        )
     }
 
     func patch(req: Request) async throws -> Response {

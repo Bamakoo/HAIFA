@@ -12,8 +12,20 @@ extension CuisineController {
     /// - Returns: a true Boolean if the new cuisine can be added to the DB because it doesn't already exist, false if it can't.
     func canAddNewCuisine(_ newCuisine: String, req: Request) async throws -> Bool {
         let cuisines = try await Cuisine.query(on: req.db).all()
-        for cuisine in cuisines where cuisine.country == newCuisine || cuisine.country.capitalized == newCuisine.capitalized {
-            return false
+        for cuisine in cuisines {
+            switch newCuisine.compare(
+                cuisine.country,
+                options: [
+                    .caseInsensitive,
+                    .diacriticInsensitive
+                ]
+            ) {
+                
+            case .orderedAscending, .orderedDescending:
+                continue
+            case .orderedSame:
+                return false
+            }
         }
         return true
     }
